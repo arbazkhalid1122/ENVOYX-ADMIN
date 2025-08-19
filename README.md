@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# EnvoyX Admin Dashboard
+
+A comprehensive admin dashboard for managing the EnvoyX invoice financing platform.
+
+## Features
+
+### 🏠 Home Dashboard
+- System overview with key metrics
+- Recent activities and system health
+- Quick action buttons for common tasks
+- Pending tasks and alerts
+
+### 📄 Invoice Financing
+- **Available for financing**: View and manage invoices ready for approval
+- **Under review**: Monitor invoices currently being reviewed
+- **Overview & Insights**: Analytics and performance metrics
+- **History**: Complete invoice processing history
+
+### 📊 Reports & Insights
+- **Overview**: Comprehensive analytics dashboard
+- **Claims intelligence**: Advanced reporting and insights
+
+### 👥 User Management
+- **Businesses**: Manage registered business accounts
+- **Financiers**: Administer financier profiles
+- **Insurers & TPAs**: Manage insurance and TPA relationships
+- **Admin users**: System administrator management
+
+### ⚙️ Workflows
+- Monitor automated system workflows
+- Performance metrics and health status
+- Workflow execution history
+
+### 🔧 Core Configuration
+- System settings and preferences
+- Security configurations
+- Email and database settings
+- Integration management
+
+## Technology Stack
+
+- **Frontend**: Next.js 14 with React
+- **Styling**: Tailwind CSS with custom design system
+- **UI Components**: Custom component library with Radix UI primitives
+- **Icons**: Lucide React
+- **State Management**: React hooks and context
+
+## Design System
+
+The admin dashboard uses a consistent design system with:
+
+- **Primary Color**: `#03a84e` (Green)
+- **Background**: `#f7f7f7` (Light Gray)
+- **Text Colors**: 
+  - Primary: `#272635`
+  - Secondary: `#5f6057`
+- **Borders**: `#e4e4e7`
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+envoyx-admin/
+├── app/                    # Next.js app directory
+│   ├── dashboard/         # Main dashboard
+│   ├── invoice-financing/ # Invoice management
+│   ├── reports/          # Analytics and reports
+│   ├── user-management/  # User administration
+│   ├── workflows/        # System workflows
+│   └── core-config/      # System configuration
+├── components/           # Reusable components
+│   ├── ui/              # Base UI components
+│   ├── layout/          # Layout components
+│   └── invoices/        # Invoice-specific components
+└── lib/                 # Utilities and helpers
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Key Components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Sidebar Navigation
+- Collapsible navigation with nested menu items
+- Active state management
+- Icon-based navigation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Dashboard Cards
+- Metric cards with trends
+- Status indicators
+- Interactive elements
 
-## Deploy on Vercel
+### Data Tables
+- Sortable and filterable tables
+- Action buttons
+- Status badges
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Configuration Forms
+- Tabbed interface for different settings
+- Form validation
+- Real-time updates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Backend Integration
+
+The admin dashboard is designed to integrate with the existing EnvoyX backend APIs:
+
+- **Users API**: `/users` - User management
+- **Companies API**: `/companies` - Business management
+- **Invoices API**: `/invoices` - Invoice processing
+- **Claims API**: `/claims` - Claims management
+
+## Development
+
+### Adding New Pages
+1. Create a new directory in `app/`
+2. Add a `page.jsx` file
+3. Import and use the Sidebar component
+4. Follow the existing design patterns
+
+### Styling Guidelines
+- Use the established color palette
+- Maintain consistent spacing (6px grid)
+- Follow the component hierarchy
+- Use Tailwind utility classes
+
+### Component Development
+- Create reusable components in `components/ui/`
+- Use TypeScript for type safety
+- Follow the established naming conventions
+- Include proper documentation
+
+## Deployment
+
+The admin dashboard can be deployed using:
+
+```bash
+npm run build
+npm start
+```
+
+## Contributing
+
+1. Follow the existing code style
+2. Add proper documentation
+3. Test thoroughly before submitting
+4. Use meaningful commit messages
+
+## License
+
+This project is part of the EnvoyX platform and follows the same licensing terms.

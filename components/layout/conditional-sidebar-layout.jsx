@@ -1,40 +1,26 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
-import Sidebar from "@/components/layout/sidebar"
-import { Menu } from "lucide-react"
 
-// Define routes that should have sidebar
-const SIDEBAR_ROUTES = ["/on-boarding", "/dashboard", "/invoices"]
+// Define routes that should have sidebar (only for non-admin pages)
+const SIDEBAR_ROUTES = ["/on-boarding"]
 
 export default function ConditionalSidebarLayout({ children }) {
-const pathname = usePathname()
+  const pathname = usePathname()
 
   // Check if current route should have sidebar
   const shouldShowSidebar = SIDEBAR_ROUTES.some((route) => pathname.startsWith(route))
 
-  // If no sidebar needed, render children directly
+  // For admin pages, render children directly without any sidebar wrapper
+  // Admin pages handle their own sidebar layout
   if (!shouldShowSidebar) {
     return <>{children}</>
   }
 
-  // If sidebar needed, wrap with SidebarProvider
+  // For non-admin pages that need sidebar, render with basic layout
   return (
-    <SidebarProvider>
-      <Sidebar />
-      <SidebarInset>
-        {/* Mobile header with trigger */}
-        <div className="md:hidden flex items-center p-4 bg-white border-b border-[#e4e4e7] sticky top-0 w-full">
-          <SidebarTrigger className="mr-4">
-            <Menu className="h-6 w-6" />
-          </SidebarTrigger>
-          <h1 className="text-lg font-semibold">Menu</h1>
-        </div>
-
-        {/* Main content */}
-        <main className="flex-1 w-full bg-[#f7f7f7] pl-0 sm:pl-10">{children}</main>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="min-h-screen bg-[#f7f7f7]">
+      {children}
+    </div>
   )
 }

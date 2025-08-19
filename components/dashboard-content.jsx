@@ -1,121 +1,133 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, MoreHorizontal, MoveUpRight, Search, X } from "lucide-react"
+import { Bell, MoreHorizontal, MoveUpRight, Search, X, Users, Building2, FileText, TrendingUp, AlertCircle, CheckCircle, Clock, Eye } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Sidebar from "./layout/sidebar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { Button } from "./ui/button"
-import InvoiceCard from "@/components/invoice-card"
-import FinancialDashboard from "@/components/Home/financial-dashboard"
-import TransactionHistory from "@/components/Home/transaction"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Badge } from "./ui/badge"
 
 export function DashboardContent() {
-  const [showProfileHelp, setShowProfileHelp] = useState(true)
-  const dashboardData = {
-    supportBanner: {
-      title: "Having trouble completing your profile?",
-      description:
-        "If you're having trouble with completing your profile, kindly reach out to one of our amazing humans at ErrorX to give you a helping hand. We really want you and your business to win.",
-      supportText: "Contact support",
-      show: true,
-    },
-    activity: {
-      title: "Financing activity",
-      subtitle: "Showing daily activity for the last 30 months",
-    },
-    chartData: [
-      { date: "6 Jan", value: 0 },
-      { date: "16 Jan", value: 0 },
-      { date: "20 Jan", value: 0 },
-      { date: "30 Jan", value: 0 },
-      { date: "6 Feb", value: 0 },
-      { date: "10 Feb", value: 0 },
-      { date: "17 Feb", value: 0 },
-      { date: "28 Feb", value: 0 },
-      { date: "2 Mar", value: 0 },
-    ],
-  }
+  const [activeItem, setActiveItem] = useState("dashboard")
 
-  // Alternative data example
-  const customData = {
-    supportBanner: {
-      title: "Need help with your account?",
-      description: "Our support team is ready to assist you with any questions or issues you might have.",
-      supportText: "Get help now",
-      show: true,
-    },
-    activity: {
-      title: "Transaction activity",
-      subtitle: "Showing weekly activity for the last 6 months",
-    },
-    chartData: [
-      { date: "Week 1", value: 5 },
-      { date: "Week 2", value: 3 },
-      { date: "Week 3", value: 8 },
-      { date: "Week 4", value: 2 },
-      { date: "Week 5", value: 6 },
-      { date: "Week 6", value: 1 },
-    ],
-  }
-
-  const handleContactSupport = () => {
-    console.log("Contact support clicked")
-  }
-
-  const handleCloseBanner = () => {
-    console.log("Banner closed")
-  }
-
-  const handleFilter = () => {
-    console.log("Filter clicked")
-  }
-
-  const handleViewReport = () => {
-    console.log("View detailed report clicked")
-  }
-
-  const invoiceData = [
+  // Mock data for admin dashboard
+  const statsData = [
     {
-      amount: "00.0",
-      currency: "XOF",
+      title: "Total Users",
+      value: "1,234",
+      change: "+12%",
+      changeType: "positive",
+      icon: Users,
+      description: "Active users this month"
+    },
+    {
+      title: "Businesses",
+      value: "89",
+      change: "+5%",
+      changeType: "positive",
+      icon: Building2,
+      description: "Registered businesses"
+    },
+    {
       title: "Pending Invoices",
-      description: "You've 0 pending invoices",
-      highlightNumber: true,
+      value: "156",
+      change: "+23%",
+      changeType: "negative",
+      icon: FileText,
+      description: "Awaiting review"
     },
     {
-      amount: "00.0",
-      currency: "XOF",
-      title: "Rejected Invoices",
-      description: "0 rejected invoices",
-      percentageChange: "0% vs last month",
-      highlightNumber: true,
-    },
-    {
-      amount: "00.0",
-      currency: "XOF",
-      title: "Paid Invoices",
-      description: "You've received 0 invoices duly paid so far.",
-      percentageChange: "0% vs last month",
-      highlightNumber: true,
-    },
+      title: "Revenue",
+      value: "$45.2K",
+      change: "+18%",
+      changeType: "positive",
+      icon: TrendingUp,
+      description: "This month"
+    }
   ]
+
+  const recentActivities = [
+    {
+      id: 1,
+      type: "invoice_uploaded",
+      title: "New invoice uploaded",
+      description: "Invoice #INV-2024-001 uploaded by ABC Company",
+      time: "2 minutes ago",
+      status: "pending",
+      icon: FileText
+    },
+    {
+      id: 2,
+      type: "user_registered",
+      title: "New business registered",
+      description: "XYZ Corporation completed registration",
+      time: "15 minutes ago",
+      status: "completed",
+      icon: Building2
+    },
+    {
+      id: 3,
+      type: "invoice_approved",
+      title: "Invoice approved",
+      description: "Invoice #INV-2024-002 approved for financing",
+      time: "1 hour ago",
+      status: "completed",
+      icon: CheckCircle
+    },
+    {
+      id: 4,
+      type: "system_alert",
+      title: "System maintenance",
+      description: "Scheduled maintenance completed successfully",
+      time: "2 hours ago",
+      status: "info",
+      icon: AlertCircle
+    }
+  ]
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800"
+      case "completed":
+        return "bg-green-100 text-green-800"
+      case "info":
+        return "bg-blue-100 text-blue-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
+  }
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "pending":
+        return Clock
+      case "completed":
+        return CheckCircle
+      case "info":
+        return AlertCircle
+      default:
+        return Eye
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#f7f7f7] flex">
-      {/* <Sidebar /> */}
-      <div>
+      <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
+      <div className="flex-1">
         {/* Header */}
         <header className="bg-white border-b border-[#e4e4e7] px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-[#272635] flex items-center gap-2">Hello Assi 👋</h1>
-            <p className="text-sm text-[#5f6057]">Increase cashflow with your invoices</p>
+            <h1 className="text-xl font-semibold text-[#272635] flex items-center gap-2">Admin Dashboard 👋</h1>
+            <p className="text-sm text-[#5f6057]">System overview and management</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#5f6057]" />
               <Input
-                placeholder="Search"
+                placeholder="Search..."
                 className="pl-10 w-64 border-[#e4e4e7] focus:border-[#03a84e] focus:ring-[#03a84e]"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#5f6057]">⌘K</span>
@@ -126,122 +138,185 @@ export function DashboardContent() {
 
         {/* Dashboard content */}
         <div className="p-6 space-y-6">
-          {/* Account setup */}
-          <div>
-            <h2 className="text-lg font-semibold text-[#272635] mb-4">Complete your account setup</h2>
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Setup your business profile",
-                  description: "Pre-fill your business information to get started",
-                  status: "Not started",
-                  color: "bg-purple-100",
-                  progress: "0%",
-                  src: '/Frame.svg'
-                },
-                {
-                  title: "Complete KYC/B",
-                  description: "Provide some documents to help us keep EnvoyX safe",
-                  status: "Not started",
-                  color: "bg-green-100",
-                  progress: "0%",
-                  src: '/Frame1.svg'
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {statsData.map((stat, index) => {
+              const Icon = stat.icon
+              return (
+                <Card key={index} className="border-[#e4e4e7] shadow-sm">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-[#5f6057]">
+                      {stat.title}
+                    </CardTitle>
+                    <Icon className="h-4 w-4 text-[#03a84e]" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-[#272635]">{stat.value}</div>
+                    <p className="text-xs text-[#5f6057] mt-1">{stat.description}</p>
+                    <div className="flex items-center mt-2">
+                      <span className={`text-xs font-medium ${
+                        stat.changeType === "positive" ? "text-green-600" : "text-red-600"
+                      }`}>
+                        {stat.change}
+                      </span>
+                      <span className="text-xs text-[#5f6057] ml-1">vs last month</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
 
-                },
-                {
-                  title: "Financing preferences",
-                  description: "Help us identify you by submitting the basic government issue documents",
-                  status: "Not started",
-                  color: "bg-blue-100",
-                  progress: "0%",
-                  src: '/Frame2.svg'
+          {/* Quick Actions */}
+          <Card className="border-[#e4e4e7] shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-[#272635]">Quick Actions</CardTitle>
+              <CardDescription>Common administrative tasks</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button 
+                  variant="outline" 
+                  className="h-auto p-4 flex flex-col items-start gap-2 border-[#e4e4e7] hover:border-[#03a84e]"
+                  onClick={() => window.location.href = "/user-management/businesses"}
+                >
+                  <Building2 className="h-5 w-5 text-[#03a84e]" />
+                  <div className="text-left">
+                    <div className="font-medium">Manage Businesses</div>
+                    <div className="text-xs text-[#5f6057]">View and manage registered businesses</div>
+                  </div>
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="h-auto p-4 flex flex-col items-start gap-2 border-[#e4e4e7] hover:border-[#03a84e]"
+                  onClick={() => window.location.href = "/invoice-financing/under-review"}
+                >
+                  <FileText className="h-5 w-5 text-[#03a84e]" />
+                  <div className="text-left">
+                    <div className="font-medium">Review Invoices</div>
+                    <div className="text-xs text-[#5f6057]">Process pending invoice requests</div>
+                  </div>
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="h-auto p-4 flex flex-col items-start gap-2 border-[#e4e4e7] hover:border-[#03a84e]"
+                  onClick={() => window.location.href = "/reports/overview"}
+                >
+                  <TrendingUp className="h-5 w-5 text-[#03a84e]" />
+                  <div className="text-left">
+                    <div className="font-medium">View Reports</div>
+                    <div className="text-xs text-[#5f6057]">Access system analytics and insights</div>
+                  </div>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
-                },
-              ].map((item, index) => (
-                <div key={index} className="bg-white rounded-xl p-6 border border-[#e4e4e7]">
-                  {/* <div className={`w-16 h-16 ${item.color} rounded-xl mb-4 flex items-center justify-center`}>
-                  <div className="w-8 h-8 bg-white rounded-lg"></div>
-                </div> */}
-                  <img src={item?.src} alt="" className="mb-12" />
-                  <h3 className="font-semibold text-[#272635] mb-2">{item.title}</h3>
-                  <p className="text-sm mb-4">{item.description}</p>
-                  {index === 0 && <button className="text-[#03a84e] text-sm underline flex items-center gap-1">Preview & sign <MoveUpRight className="h-3 w-3" /></button>}
+          {/* Recent Activities */}
+          <Card className="border-[#e4e4e7] shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold text-[#272635]">Recent Activities</CardTitle>
+              <CardDescription>Latest system activities and updates</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {recentActivities.map((activity) => {
+                  const Icon = activity.icon
+                  const StatusIcon = getStatusIcon(activity.status)
+                  return (
+                    <div key={activity.id} className="flex items-start gap-4 p-3 rounded-lg hover:bg-[#f7f7f7] transition-colors">
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 bg-[#03a84e]/10 rounded-full flex items-center justify-center">
+                          <Icon className="w-4 h-4 text-[#03a84e]" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-medium text-[#272635]">{activity.title}</h4>
+                          <Badge className={getStatusColor(activity.status)}>
+                            <StatusIcon className="w-3 h-3 mr-1" />
+                            {activity.status}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-[#5f6057] mt-1">{activity.description}</p>
+                        <p className="text-xs text-[#5f6057] mt-1">{activity.time}</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* System Health */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className="border-[#e4e4e7] shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-[#272635]">System Health</CardTitle>
+                <CardDescription>Current system status and performance</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-[#5f6057]">API Response Time</span>
+                    <span className="text-sm font-medium text-green-600">120ms</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-[#5f6057]">Database Status</span>
+                    <span className="text-sm font-medium text-green-600">Healthy</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-[#5f6057]">Storage Usage</span>
+                    <span className="text-sm font-medium text-yellow-600">78%</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-[#5f6057]">Active Sessions</span>
+                    <span className="text-sm font-medium text-[#272635]">45</span>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-[#e4e4e7] shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold text-[#272635]">Pending Tasks</CardTitle>
+                <CardDescription>Items requiring attention</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                    <div>
+                      <div className="text-sm font-medium text-[#272635]">Invoice Reviews</div>
+                      <div className="text-xs text-[#5f6057]">156 invoices pending review</div>
+                    </div>
+                    <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+                      156
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <div>
+                      <div className="text-sm font-medium text-[#272635]">User Verifications</div>
+                      <div className="text-xs text-[#5f6057]">23 users awaiting verification</div>
+                    </div>
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      23
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                    <div>
+                      <div className="text-sm font-medium text-[#272635]">System Alerts</div>
+                      <div className="text-xs text-[#5f6057]">2 critical alerts</div>
+                    </div>
+                    <Badge variant="secondary" className="bg-red-100 text-red-800">
+                      2
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-
-          {/* Account overview */}
-          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-            {/* Header */}
-            <div className="flex items-start justify-between mb-8">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-1">Account overview</h2>
-                <p className="text-sm text-gray-500">Showing total visitors for the last 3 months</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Select defaultValue="last-3-months">
-                  <SelectTrigger className="w-auto border-gray-200 text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="last-3-months">Last 3 months</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select defaultValue="daily">
-                  <SelectTrigger className="w-auto border-gray-200 text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="daily">Daily</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select defaultValue="all-invoices">
-                  <SelectTrigger className="w-auto border-gray-200 text-sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all-invoices">All invoices</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Main Metric */}
-            <div className="text-center mb-12">
-              <h3 className="text-sm text-gray-500 mb-3">Total invoice financed</h3>
-              <div className="mb-3">
-                <span className="text-5xl font-bold text-gray-900">00.0</span>
-                <span className="text-lg text-gray-400 ml-2">XOF</span>
-              </div>
-              <div className="text-sm text-gray-500">
-                vs. <span className="text-gray-700">32,500,650.00 XOF</span> last period{" "}
-                <span className="text-green-600 font-medium">+38.7%</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-              {invoiceData.map((data, index) => (
-                <InvoiceCard key={index} data={data} />
-              ))}
-            </div>
-          </div>
-          <FinancialDashboard
-            data={dashboardData}
-            onContactSupport={handleContactSupport}
-            onCloseBanner={handleCloseBanner}
-            onFilter={handleFilter}
-            onViewReport={handleViewReport}
-          />
-      <TransactionHistory
-        recentTransactionsTitle="Recent transactions"
-        recentTransactionsSubtitle="Showing your recent transfers"
-        awaitingFinancingTitle="Invoices awaiting financing"
-        awaitingFinancingSubtitle="Showing activities on the invoices submitted for financing"
-        transactions={[]}
-        onTransactionClick={(transaction) => console.log(transaction)}
-        className="p-6 bg-white rounded-xl border border-gray-200 shadow-sm"
-      />
         </div>
       </div>
     </div>
