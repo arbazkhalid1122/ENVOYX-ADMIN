@@ -31,17 +31,17 @@ function ValidationForm() {
   const handleValidate = async () => {
     setLoading(true)
 
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    })
+    // const result = await signIn("credentials", {
+    //   redirect: false,
+    //   email,
+    //   password,
+    // })
 
-    if (result?.error) {
-      alert("Invalid credentials")
-    } else {
+    // if (result?.error) {
+    //   alert("Invalid credentials")
+    // } else {
       router.push("/dashboard")
-    }
+    // }
 
     setLoading(false)
   }

@@ -15,12 +15,12 @@ export async function middleware(req: NextRequest) {
     pathname === "/favicon.ico";
 
   if (isPublicRoute) {
-    return NextResponse.next();
+    // return NextResponse.next();
   }
 
   // Redirect to /sign-in if not authenticated
   if (!token) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+    // return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
 
